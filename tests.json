@@ -1,0 +1,123 @@
+{
+  "skrining": [
+    {
+      "id": "asam-urat",
+      "judul": "Cek Asam Urat",
+      "deskripsi": "Kenali gejala dan risiko asam urat (gout) sejak dini.",
+      "kategori": "Metabolik",
+      "ikon": "flame",
+      "halaman": "asam-urat.html",
+      "menit": 3,
+      "kata": ["gout", "sendi", "nyeri", "purin", "jempol kaki"]
+    },
+    {
+      "id": "kolesterol",
+      "judul": "Cek Kolesterol",
+      "deskripsi": "Perkirakan risiko kolesterol tinggi dari pola makan dan gaya hidup.",
+      "kategori": "Metabolik",
+      "ikon": "activity",
+      "halaman": "kolesterol.html",
+      "menit": 3,
+      "kata": ["lemak", "lipid", "darah", "ldl"]
+    },
+    {
+      "id": "mata",
+      "judul": "Cek Mata",
+      "deskripsi": "Kenali mata lelah, rabun, dan gangguan penglihatan.",
+      "kategori": "Indera",
+      "ikon": "eye",
+      "halaman": "mata.html",
+      "menit": 2,
+      "kata": ["penglihatan", "minus", "katarak", "rabun", "buram"]
+    },
+    {
+      "id": "jantung",
+      "judul": "Cek Jantung",
+      "deskripsi": "Skrining faktor risiko penyakit jantung dan pembuluh darah.",
+      "kategori": "Jantung",
+      "ikon": "heart",
+      "halaman": "jantung.html",
+      "menit": 4,
+      "kata": ["dada", "tekanan darah", "hipertensi", "koroner", "berdebar"]
+    },
+    {
+      "id": "otak",
+      "judul": "Cek Otak",
+      "deskripsi": "Kenali tanda stroke, pikun, dan gangguan fungsi otak.",
+      "kategori": "Saraf",
+      "ikon": "brain",
+      "halaman": "otak.html",
+      "menit": 4,
+      "kata": ["stroke", "pikun", "migrain", "pusing", "saraf", "memori"]
+    },
+    {
+      "id": "payudara",
+      "judul": "Cek Risiko Payudara",
+      "deskripsi": "Kenali faktor risiko dan tanda awal kelainan payudara (SADARI).",
+      "kategori": "Wanita",
+      "ikon": "ribbon",
+      "halaman": "payudara.html",
+      "menit": 3,
+      "kata": ["kanker", "benjolan", "sadari", "mammae"]
+    },
+    {
+      "id": "sinusitis",
+      "judul": "Cek Sinusitis",
+      "deskripsi": "Cek gejala peradangan sinus: hidung tersumbat, nyeri wajah, pilek.",
+      "kategori": "THT",
+      "ikon": "wind",
+      "halaman": "sinusitis.html",
+      "menit": 3,
+      "kata": ["hidung", "pilek", "sinus", "pusing", "tht"]
+    },
+    {
+      "id": "persendian",
+      "judul": "Cek Persendian",
+      "deskripsi": "Nilai keluhan nyeri, kaku, dan bengkak pada sendi.",
+      "kategori": "Tulang & Sendi",
+      "ikon": "bone",
+      "halaman": "persendian.html",
+      "menit": 3,
+      "kata": ["sendi", "lutut", "arthritis", "rematik", "nyeri", "kaku"]
+    },
+    {
+      "id": "tulang-belakang",
+      "judul": "Cek Tulang Belakang",
+      "deskripsi": "Cek nyeri punggung, postur, dan tanda saraf terjepit.",
+      "kategori": "Tulang & Sendi",
+      "ikon": "spine",
+      "halaman": "tulang-belakang.html",
+      "menit": 3,
+      "kata": ["punggung", "pinggang", "skoliosis", "saraf kejepit", "hernia"]
+    },
+    {
+      "id": "perut",
+      "judul": "Cek Perut",
+      "deskripsi": "Kenali keluhan lambung, maag, dan gangguan pencernaan.",
+      "kategori": "Pencernaan",
+      "ikon": "stomach",
+      "halaman": "perut.html",
+      "menit": 3,
+      "kata": ["lambung", "maag", "usus", "mual", "gerd", "pencernaan"]
+    },
+    {
+      "id": "ginjal",
+      "judul": "Cek Ginjal",
+      "deskripsi": "Cek tanda awal gangguan ginjal dan faktor risikonya.",
+      "kategori": "Ginjal",
+      "ikon": "bean",
+      "halaman": "ginjal.html",
+      "menit": 3,
+      "kata": ["kidney", "kencing", "bengkak", "urin"]
+    },
+    {
+      "id": "lain-lain",
+      "judul": "Cek Lain-lain",
+      "deskripsi": "Pemeriksaan lainnya yang akan terus ditambahkan.",
+      "kategori": "Lainnya",
+      "ikon": "more",
+      "halaman": "lain-lain.html",
+      "kata": ["lainnya", "umum", "semua"]
+    }
+  ]
+}

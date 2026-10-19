@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A6CB8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Deteksi Dini Asam Urat – Cek Kesehatan.my.id</title>
+<style>
+:root{--font:Inter,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--c1:#06B6D4;--c2:#0A6CB8;--c3:#2D4FD6;--navy:#0B2540;--mut:#6B8299;--bg:#F0F8FF;--line:#DCEAF5;--ok:#12A87A;--warn:#F0A020;--bad:#E5484D;
+--grad:linear-gradient(135deg,#06B6D4 0%,#0A6CB8 55%,#2D4FD6 100%)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--navy);display:flex;justify-content:center}
+#app{width:100%;max-width:480px;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden;background:var(--bg)}
+.hero{position:absolute;inset:0 0 auto 0;height:300px;background:var(--grad);border-radius:0 0 50% 50%/0 0 60px 60px;z-index:0}
+.hero:after{content:"";position:absolute;right:-60px;top:20px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.1)}
+header{position:relative;z-index:2;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 8px;display:flex;align-items:center;gap:12px;color:#fff}
+.ib{width:40px;height:40px;border-radius:14px;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:20px;display:grid;place-items:center;cursor:pointer;text-decoration:none;flex:none}
+.ib[disabled]{opacity:.35}
+.bar{flex:1;height:8px;border-radius:8px;background:rgba(255,255,255,.28);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#fff;border-radius:8px;transition:width .4s}
+.cnt{font-size:12px;font-weight:600;min-width:40px;text-align:right}
+main{position:relative;z-index:1;flex:1;overflow:hidden}
+.slide{position:absolute;inset:0;overflow-y:auto;padding:4px 20px 24px;animation:in .38s cubic-bezier(.2,.8,.2,1)}
+.slide.back{animation-name:inb}
+@keyframes in{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes inb{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+.char{display:flex;align-items:flex-end;gap:10px;color:#fff;margin-bottom:14px}
+.char svg{width:92px;height:92px;flex:none;animation:fl 3s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-6px)}}
+.say{background:#fff;color:var(--navy);padding:12px 14px;border-radius:18px 18px 18px 4px;font-size:14px;line-height:1.45;box-shadow:0 8px 24px rgba(10,60,120,.18);margin-bottom:8px}
+.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:22px 18px;box-shadow:0 10px 30px rgba(10,80,150,.08)}
+h1{font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.3px}
+.hint{color:var(--mut);font-size:13.5px;margin-top:6px;line-height:1.45}
+.opts{display:grid;gap:10px;margin-top:18px}
+.opt{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;border:1.5px solid var(--line);background:#fff;font:600 15.5px var(--font);color:var(--navy);text-align:left;cursor:pointer;transition:.15s;width:100%}
+.opt b{font-size:24px;width:32px;text-align:center;font-weight:400}
+.opt small{display:block;font-weight:500;font-size:12.5px;color:var(--mut);margin-top:2px}
+.opt.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(10,108,184,.35)}
+.opt.on small{color:#D6F2FF}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.chip{padding:11px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font:600 14.5px var(--font);color:var(--mut);cursor:pointer}
+.chip.on{background:var(--grad);color:#fff;border-color:transparent}
+label{display:block;font-size:13px;font-weight:700;margin:16px 0 6px}
+input[type=text],input[type=number]{width:100%;padding:14px 16px;border-radius:18px;border:1.5px solid var(--line);font:600 16px var(--font);color:var(--navy);background:#F7FBFF;outline:0}
+input:focus{border-color:var(--c1);background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.unit{position:relative}.unit span{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--mut);font-weight:600;font-size:14px}
+footer{position:relative;z-index:2;padding:10px 20px calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;background:linear-gradient(transparent,var(--bg) 30%)}
+.btn{flex:1;border:0;border-radius:999px;padding:16px;font:700 16px var(--font);color:#fff;background:var(--grad);box-shadow:0 10px 24px rgba(45,79,214,.35);cursor:pointer;text-align:center;text-decoration:none;display:block}
+.btn:disabled{opacity:.4;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--c2);border:1.5px solid var(--line);box-shadow:none}
+.link{background:none;border:0;color:var(--c2);font:600 14px var(--font);margin-top:14px;cursor:pointer;padding:6px}
+/* result */
+.gauge{position:relative;width:170px;height:170px;margin:4px auto 0}
+.gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
+.gauge .n{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.gauge .n b{font-size:42px;font-weight:800;line-height:1}.gauge .n span{font-size:12px;color:var(--mut);font-weight:600}
+.lvl{display:inline-block;padding:7px 16px;border-radius:999px;color:#fff;font-weight:700;font-size:14px;margin-top:10px}
+.tabs{display:flex;gap:8px;margin:16px 0 12px;overflow-x:auto}
+.tabs .chip{white-space:nowrap;padding:10px 14px;font-size:14px}
+.box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:12px}
+.box h3{font-size:15px;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.box ul{padding-left:18px;font-size:14px;line-height:1.6;color:#34506B}
+.no{border-left:5px solid var(--bad)}.yes{border-left:5px solid var(--ok)}.mid{border-left:5px solid var(--warn)}
+.meal{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.5}
+.meal:first-of-type{border:0}.meal b{flex:none;width:68px;color:var(--c2)}
+.alert{background:#FFF1F1;border:1px solid #FAD0D2;color:#9B2C30;border-radius:20px;padding:14px;font-size:13.5px;line-height:1.5;margin-bottom:12px}
+.note{font-size:12px;color:var(--mut);line-height:1.5;text-align:center;margin:8px 4px 4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hero"></div>
+  <header>
+    <button class="ib" id="bk" aria-label="Kembali">‹</button>
+    <div class="bar"><i id="pg"></i></div>
+    <span class="cnt" id="ct"></span>
+    <a class="ib" href="index.html" aria-label="Tutup">✕</a>
+  </header>
+  <main id="st"></main>
+  <footer id="ft"></footer>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let A={},cur='profile',hist=[];
+
+function mascot(m){
+  const mouth={happy:'<path d="M48 90 Q60 101 72 90" stroke="#0B2540" stroke-width="3.5" fill="none" stroke-linecap="round"/>',
+  think:'<path d="M52 93 H68" stroke="#0B2540" stroke-width="3.5" stroke-linecap="round"/><path d="M68 62 l10 -4" stroke="#fff" stroke-width="3" stroke-linecap="round"/>',
+  worry:'<path d="M50 96 Q60 87 70 96" stroke="#0B2540" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M95 50 q6 9 0 13 q-6 -4 0 -13z" fill="#CFF3FF"/>',
+  wow:'<ellipse cx="60" cy="93" rx="6" ry="7.5" fill="#0B2540"/>'}[m]||'';
+  return `<svg viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5FE3F5"/><stop offset="1" stop-color="#2D5CE0"/></linearGradient></defs>
+  <ellipse cx="60" cy="114" rx="30" ry="5" fill="rgba(0,40,90,.2)"/>
+  <path d="M60 6C60 6 18 52 18 78a42 42 0 0 0 84 0C102 52 60 6 60 6z" fill="url(#g)" stroke="#fff" stroke-width="3"/>
+  <ellipse cx="40" cy="58" rx="7" ry="13" fill="#fff" opacity=".28" transform="rotate(25 40 58)"/>
+  <rect x="50" y="30" width="20" height="20" rx="6" fill="#fff"/><path d="M60 34v12M54 40h12" stroke="#0A6CB8" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="44" cy="74" r="8" fill="#fff"/><circle cx="76" cy="74" r="8" fill="#fff"/><circle cx="46" cy="75" r="4" fill="#0B2540"/><circle cx="78" cy="75" r="4" fill="#0B2540"/>
+  <circle cx="32" cy="88" r="5" fill="#FF9DB0" opacity=".6"/><circle cx="88" cy="88" r="5" fill="#FF9DB0" opacity=".6"/>${mouth}</svg>`;
+}
+
+const O3=(a,b,c)=>[['a',...a],['b',...b],['c',...c]];
+const Q=[
+{id:'profile',mood:'happy',say:'Halo! Aku Dokter Uri 👋 Yuk kenalan dulu, biar hasilnya lebih akurat.'},
+{id:'cek',mood:'think',say:'Pernah cek kadar asam urat di lab atau Puskesmas?',t:'Pernah periksa asam urat?',opts:[['ya','🧪','Sudah pernah'],['belum','🙈','Belum pernah']]},
+{id:'kadar',show:a=>a.cek==='ya',mood:'wow',say:'Wah bagus! Lihat angka hasil terakhirmu ya.',t:'Berapa hasil terakhirnya?',hint:'Batas normal ± 7 mg/dL (pria) dan 6 mg/dL (wanita).',type:'num'},
+{id:'nyeri',mood:'think',say:'Sekarang soal sendi. Jujur ya, aku tidak menghakimi 😄',t:'Pernah merasakan nyeri sendi?',opts:[['ya','😣','Pernah'],['tidak','😊','Belum pernah']]},
+{id:'lokasi',show:a=>a.nyeri==='ya',mood:'worry',say:'Di bagian mana nyerinya? Boleh pilih lebih dari satu.',t:'Nyeri di sendi yang mana?',type:'multi',opts:[['jempol','🦶','Jempol kaki'],['lutut','🦵','Lutut'],['tumit','👣','Pergelangan / tumit'],['tangan','✋','Jari / pergelangan tangan'],['siku','💪','Siku']]},
+{id:'serangan',show:a=>a.nyeri==='ya',mood:'worry',say:'Ini pertanyaan penting untuk mengenali pola asam urat.',t:'Nyeri datang mendadak, sendi merah, bengkak & hangat — sering malam hari?',opts:[['ya','🔥','Ya, persis begitu'],['kadang','🤔','Kadang mirip'],['tidak','🙅','Tidak']]},
+{id:'keluarga',mood:'think',say:'Gen ikut berperan lho.',t:'Ada keluarga kandung yang punya asam urat?',opts:[['ya','👨‍👩‍👧','Ada'],['tidak','🙂','Tidak ada / tidak tahu']]},
+{id:'tb',mood:'happy',say:'Berat badan berlebih bikin asam urat naik. Isi ya, atau lewati.',t:'Tinggi & berat badanmu?',type:'bmi'},
+{id:'jeroan',mood:'wow',say:'Hati ampela, sarden, kerang, emping… 🍤',t:'Seberapa sering makan jeroan, seafood, daging merah, atau emping?',opts:[['jarang','🥗','Jarang (≤ 1x/minggu)'],['kadang','🍗','Kadang (2–3x/minggu)'],['sering','🥩','Sering (hampir tiap hari)']]},
+{id:'manis',mood:'think',say:'Minuman manis & bir ikut menaikkan asam urat.',t:'Seberapa sering minum manis, sirup, soda, atau alkohol?',opts:[['jarang','💧','Jarang'],['kadang','🧋','Kadang (2–3x/minggu)'],['sering','🍺','Sering (hampir tiap hari)']]},
+{id:'air',mood:'happy',say:'Air putih membantu ginjal membuang asam urat.',t:'Berapa gelas air putih per hari?',opts:[['cukup','🚰','8 gelas atau lebih'],['sedang','🥛','4–7 gelas'],['kurang','🏜️','Kurang dari 4 gelas']]},
+{id:'aktif',mood:'happy',say:'Hampir selesai! Tinggal dua lagi 💪',t:'Seberapa sering berolahraga?',opts:[['rutin','🏃','3x/minggu atau lebih'],['kadang','🚶','1–2x/minggu'],['jarang','🛋️','Hampir tidak pernah']]},
+{id:'penyerta',mood:'think',say:'Terakhir: kondisi lain yang kamu punya.',t:'Punya kondisi berikut?',hint:'Pilih semua yang sesuai.',type:'multi',opts:[['hipertensi','🫀','Darah tinggi'],['diabetes','🍬','Diabetes'],['kolesterol','🧈','Kolesterol tinggi'],['ginjal','🫘','Gangguan ginjal'],['none','✅','Tidak ada']]}
+];
+const vis=()=>Q.filter(q=>!q.show||q.show(A));
+
+function render(dir){
+  const v=vis(),i=v.findIndex(q=>q.id===cur),q=v[i];
+  $('#pg').style.width=((i+1)/(v.length+1)*100)+'%';
+  $('#ct').textContent=(i+1)+'/'+v.length;
+  $('#bk').disabled=false;
+  let body='',valid=true,next='Lanjut';
+  if(q.id==='profile'){
+    valid=A.nama&&A.usia&&A.gender;
+    body=`<div class="card"><h1>Kenalan dulu yuk</h1><p class="hint">Usia dan jenis kelamin memengaruhi batas normal asam urat.</p>
+    <label>Nama panggilan</label><input type="text" id="nama" placeholder="mis. Budi" value="${esc(A.nama||'')}" maxlength="30">
+    <label>Usia</label><div class="unit"><input type="number" id="usia" inputmode="numeric" min="5" max="110" placeholder="mis. 35" value="${A.usia||''}"><span>tahun</span></div>
+    <label>Jenis kelamin</label><div class="chips" style="margin-top:0"><button class="chip ${A.gender==='L'?'on':''}" data-g="L">👨 Laki-laki</button><button class="chip ${A.gender==='P'?'on':''}" data-g="P">👩 Perempuan</button></div></div>`;
+    next='Mulai skrining';
+  }else if(q.type==='num'){
+    valid=A.kadar>0;
+    body=`<div class="card"><h1>${q.t}</h1><p class="hint">${q.hint}</p><div class="unit" style="margin-top:18px"><input type="number" id="kadar" step="0.1" inputmode="decimal" placeholder="mis. 7.2" value="${A.kadar||''}"><span>mg/dL</span></div><button class="link" id="lupa">Lupa angkanya, lewati</button></div>`;
+  }else if(q.type==='bmi'){
+    valid=true;
+    body=`<div class="card"><h1>${q.t}</h1><div class="row"><div><label>Tinggi</label><div class="unit"><input type="number" id="tinggi" inputmode="numeric" placeholder="165" value="${A.tinggi||''}"><span>cm</span></div></div><div><label>Berat</label><div class="unit"><input type="number" id="berat" inputmode="numeric" placeholder="60" value="${A.berat||''}"><span>kg</span></div></div></div></div>`;
+    next='Lanjut';
+  }else if(q.type==='multi'){
+    const s=A[q.id]||[];valid=s.length>0;
+    body=`<div class="card"><h1>${q.t}</h1>${q.hint?`<p class="hint">${q.hint}</p>`:''}<div class="opts">${q.opts.map(o=>`<button class="opt ${s.includes(o[0])?'on':''}" data-m="${o[0]}"><b>${o[1]}</b>${o[2]}</button>`).join('')}</div></div>`;
+  }else{
+    valid=false;
+    body=`<div class="card"><h1>${q.t}</h1><div class="opts">${q.opts.map(o=>`<button class="opt ${A[q.id]===o[0]?'on':''}" data-c="${o[0]}"><b>${o[1]}</b><span>${o[2]}</span></button>`).join('')}</div></div>`;
+  }
+  const say=q.id==='profile'?q.say:(A.nama?esc(A.nama)+', ':'')+q.say.replace(/^./,c=>A.nama?c.toLowerCase():c);
+  $('#st').innerHTML=`<div class="slide ${dir||''}"><div class="char">${mascot(q.mood)}<div class="say">${say}</div></div>${body}</div>`;
+  const single=!q.type&&q.id!=='profile';
+  $('#ft').innerHTML=single?'':`<button class="btn" id="nx" ${valid?'':'disabled'}>${next}</button>`;
+}
+
+function go(){
+  const v=vis(),i=v.findIndex(q=>q.id===cur);
+  if(i>=v.length-1){return result()}
+  hist.push(cur);cur=v[i+1].id;render();
+}
+function back(){
+  if(!hist.length){location.href='index.html';return}
+  cur=hist.pop();render('back');
+}
+$('#bk').onclick=back;
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button');if(!t)return;
+  const q=Q.find(x=>x.id===cur);
+  if(t.dataset.g){A.gender=t.dataset.g;render();}
+  else if(t.dataset.c){A[cur]=t.dataset.c;document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('on',b===t));setTimeout(go,260)}
+  else if(t.dataset.m){const s=A[cur]||[],m=t.dataset.m;
+    A[cur]=m==='none'?(s.includes('none')?[]:['none']):(s.includes(m)?s.filter(x=>x!==m):[...s.filter(x=>x!=='none'),m]);render();}
+  else if(t.id==='lupa'){A.kadar=null;go()}
+  else if(t.id==='nx'){go()}
+  else if(t.id==='again'){A={};hist=[];cur='profile';$('.hero').style.height='';render()}
+  else if(t.dataset.tab){showTab(t.dataset.tab)}
+});
+document.addEventListener('input',e=>{
+  const id=e.target.id;
+  if(id==='nama')A.nama=e.target.value.trim();
+  if(id==='usia')A.usia=+e.target.value;
+  if(id==='kadar')A.kadar=parseFloat(e.target.value)||0;
+  if(id==='tinggi')A.tinggi=+e.target.value;
+  if(id==='berat')A.berat=+e.target.value;
+  const nx=$('#nx');if(nx&&cur==='profile')nx.disabled=!(A.nama&&A.usia>0&&A.gender);
+  if(nx&&cur==='kadar')nx.disabled=!(A.kadar>0);
+});
+
+function score(){
+  let s=0;const r=[],m=A.gender==='L',lim=m?7:6;
+  if(A.kadar>lim){s+=25;r.push(`Hasil lab terakhirmu (${A.kadar} mg/dL) di atas batas normal`)}
+  else if(A.kadar>lim-1){s+=10;r.push('Kadar asam urat terakhirmu mendekati batas atas')}
+  if(A.nyeri==='ya'){s+=10;r.push('Pernah mengalami nyeri sendi')}
+  const L=A.lokasi||[];
+  if(L.includes('jempol')){s+=10;r.push('Nyeri di jempol kaki adalah lokasi paling khas asam urat')}
+  s+=Math.min(L.filter(x=>x!=='jempol').length,3)*3;
+  if(A.serangan==='ya'){s+=15;r.push('Pola nyeri mendadak, merah & bengkak sangat khas serangan gout')}
+  else if(A.serangan==='kadang')s+=7;
+  if(A.keluarga==='ya'){s+=10;r.push('Ada riwayat keluarga asam urat')}
+  if(A.tinggi>100&&A.berat>20){const b=A.berat/Math.pow(A.tinggi/100,2);A.bmi=b;
+    if(b>=30){s+=10;r.push('Berat badan masuk kategori obesitas')}else if(b>=25){s+=8;r.push('Berat badan berlebih')}}
+  if(A.jeroan==='sering'){s+=10;r.push('Sering makan makanan tinggi purin')}else if(A.jeroan==='kadang')s+=4;
+  if(A.manis==='sering'){s+=8;r.push('Sering minum manis / alkohol')}else if(A.manis==='kadang')s+=3;
+  if(A.air==='kurang'){s+=5;r.push('Asupan air putih kurang')}else if(A.air==='sedang')s+=2;
+  if(A.aktif==='jarang'){s+=5;r.push('Jarang berolahraga')}
+  const P=(A.penyerta||[]).filter(x=>x!=='none');
+  if(P.length){s+=Math.min(P.length,3)*4;r.push('Punya kondisi penyerta: '+P.join(', '))}
+  if((m&&A.usia>=40)||(!m&&A.usia>=50)){s+=5;r.push('Usia termasuk kelompok yang lebih rentan')}
+  return{pct:Math.max(3,Math.min(97,Math.round(s/95*100))),r};
+}
+
+let RES;
+function result(){
+  RES=score();const p=RES.pct;
+  const lv=p>=60?{n:'Risiko tinggi',c:'var(--bad)',m:'worry',h:'#E5484D'}:p>=30?{n:'Risiko sedang',c:'var(--warn)',m:'think',h:'#F0A020'}:{n:'Risiko rendah',c:'var(--ok)',m:'happy',h:'#12A87A'};
+  RES.lv=lv;
+  $('#pg').style.width='100%';$('#ct').textContent='Hasil';
+  const say=p>=60?'Risikomu cukup tinggi. Tenang, ada langkah yang bisa kita mulai dari sekarang.':p>=30?'Ada beberapa faktor risiko. Yuk perbaiki sebelum sendi terasa nyeri.':'Kerja bagus! Pertahankan kebiasaan baikmu.';
+  $('#st').innerHTML=`<div class="slide"><div class="char">${mascot(lv.m)}<div class="say">${esc(A.nama)}, ${say.replace(/^./,c=>c.toLowerCase())}</div></div>
+  <div class="card" style="text-align:center"><div class="gauge"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="none" stroke="#E4F1FA" stroke-width="14"/><circle id="ring" cx="80" cy="80" r="70" fill="none" stroke="${lv.h}" stroke-width="14" stroke-linecap="round" stroke-dasharray="439.8" stroke-dashoffset="439.8" style="transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1)"/></svg><div class="n"><b id="num">0%</b><span>kemungkinan risiko</span></div></div>
+  <span class="lvl" style="background:${lv.c}">${lv.n}</span>
+  <div class="tabs" style="justify-content:safe center;margin-bottom:0"><button class="chip on" data-tab="ringkas">Ringkasan</button><button class="chip" data-tab="makan">Pola makan</button><button class="chip" data-tab="olah">Olahraga</button></div></div>
+  <div id="tab" style="margin-top:12px"></div></div>`;
+  $('#ft').innerHTML=`<a class="btn ghost" href="index.html" style="flex:1">Ke beranda</a><button class="btn" id="again">Ulangi</button>`;
+  showTab('ringkas');
+  requestAnimationFrame(()=>setTimeout(()=>{$('#ring').style.strokeDashoffset=439.8*(1-p/100);
+    const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1200);$('#num').textContent=Math.round(p*k)+'%';if(k<1)requestAnimationFrame(f)})(t0)},80));
+}
+
+function strict(){
+  const M=(a,b)=>`<div class="meal"><b>${a}</b><span>${b}</span></div>`;
+  return `<div class="alert" style="background:#FFF8E8;border-color:#F5DFA8;color:#7A5200"><b>Diet ketat rendah purin (fase 1).</b> Jalani 2–4 minggu, bukan seumur hidup. Cocok untuk yang sensitif: makan sedikit tempe atau emping saja bisa memicu nyeri.</div>
+  <div class="box no"><h3>⛔ Stop total di fase 1</h3><ul>
+  <li><b>Emping melinjo</b> dan semua olahan melinjo</li>
+  <li><b>Tempe, tahu, kedelai</b> & kacang-kacangan (kacang tanah, kacang hijau, oncom)</li>
+  <li>Jeroan: hati, ampela, usus, babat, paru, otak</li>
+  <li>Seafood: sarden, teri, kerang, udang, cumi, kepiting</li>
+  <li>Daging merah, bebek, kulit ayam, kaldu, sop tulang, soto & rawon berkuah pekat</li>
+  <li>Bumbu kaldu bubuk, penyedap instan, ekstrak ragi</li>
+  <li>Bir, alkohol, sirup, soda, jus kemasan, susu kental manis</li>
+  <li>Jamur, melinjo muda (so), dan gorengan berminyak</li></ul></div>
+  <div class="box yes"><h3>✅ Aman dimakan</h3><ul>
+  <li>Nasi putih, bubur, kentang, ubi, singkong, roti tawar, oat</li>
+  <li>Telur (maks. 1–2 butir/hari), susu & yoghurt rendah lemak</li>
+  <li>Wortel, labu, labu siam, timun, tomat, kol, buncis, terong</li>
+  <li>Pepaya, semangka, apel, pisang, jeruk, ceri</li>
+  <li>Air putih 2,5–3 liter/hari, boleh perasan lemon tanpa gula</li></ul></div>
+  <div class="box"><h3>🍽️ Menu fase 1 (pilih salah satu tiap waktu)</h3>
+  ${M('Sarapan','Bubur nasi + telur rebus · atau roti tawar + telur dadar + susu rendah lemak · atau oat + susu + pisang')}
+  ${M('Siang','Nasi + telur orak-arik minim minyak + sayur bening wortel-labu siam + pepaya · atau nasi + sup kentang-wortel + telur')}
+  ${M('Camilan','Semangka, pepaya, yoghurt tawar, atau ubi rebus')}
+  ${M('Malam','Bihun / kentang tumbuk + sup sayur bening + telur rebus + jeruk')}</div>
+  <div class="box mid"><h3>🔁 Fase 2: uji satu per satu</h3><ul>
+  <li>Setelah 2–4 minggu tanpa nyeri, tambahkan <b>satu</b> jenis makanan, porsi kecil, lalu tunggu 3 hari</li>
+  <li>Catat reaksi sendi di buku harian. Makanan yang memicu nyeri tetap dihindari</li>
+  <li>Urutan yang disarankan: tahu → tempe → ikan segar → ayam tanpa kulit</li></ul></div>
+  <div class="box"><h3>⚠️ Penting</h3><ul>
+  <li>Jangan puasa atau diet ekstrem. Penurunan berat badan mendadak justru bisa memicu serangan</li>
+  <li>Sekitar 70% asam urat dibuat tubuh sendiri, jadi makanan hanya sebagian penyebab. Jika masih nyeri meski diet ketat, kamu perlu pemeriksaan dan mungkin obat dari dokter</li>
+  <li>Protein dari telur & susu terbatas. Jika diet lebih dari 4 minggu, konsultasikan ke dokter atau ahli gizi</li></ul></div>`;
+}
+function showTab(t){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  const p=RES.pct,hi=p>=60,mid=p>=30&&!hi;let h='';
+  if(t==='ringkas'){
+    h+=hi?`<div class="alert"><b>Sebaiknya periksa ke dokter / Puskesmas.</b> Minta cek kadar asam urat dan fungsi ginjal. Jika sendi tiba-tiba sangat nyeri, bengkak & demam, segera ke fasilitas kesehatan.</div>`:'';
+    h+=`<div class="box"><h3>🔎 Faktor yang memengaruhi skormu</h3>${RES.r.length?'<ul>'+RES.r.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':'<ul><li>Tidak ditemukan faktor risiko berarti. Hebat!</li></ul>'}</div>
+    <div class="box"><h3>✅ Langkah berikutnya</h3><ul>${hi?'<li>Periksa asam urat di laboratorium</li><li>Terapkan menu & olahraga di tab sebelah mulai hari ini</li><li>Catat makanan yang memicu nyeri</li>':mid?'<li>Cek asam urat setahun sekali</li><li>Kurangi makanan tinggi purin & minuman manis</li><li>Rutin olahraga ringan</li>':'<li>Pertahankan pola makan & aktivitasmu</li><li>Cek kesehatan rutin tiap tahun</li>'}</ul></div>`;
+  }else if(t==='makan'&&hi){h+=strict()
+  }else if(t==='makan'){
+    h+=`<div class="box no"><h3>🚫 ${hi?'Hindari':'Batasi'}</h3><ul><li>Jeroan (hati, ampela, usus, otak)</li><li>Sarden, kerang, udang, cumi, emping melinjo</li><li>Daging merah & kaldu pekat berlebihan</li><li>Bir, alkohol, sirup, soda & minuman manis</li></ul></div>
+    <div class="box yes"><h3>✅ Anjuran</h3><ul><li>Air putih 2–3 liter per hari</li><li>Buah: jeruk, pepaya, semangka, ceri</li><li>Susu / yoghurt rendah lemak, telur</li><li>Nasi, kentang, ubi, sayur segar</li><li>Tempe & tahu secukupnya (1–2 potong)</li></ul></div>`;
+    if(p>=30)h+=`<div class="box"><h3>🍽️ Contoh menu sehari</h3>
+    <div class="meal"><b>Sarapan</b><span>Oatmeal / bubur tanpa jeroan, pisang, susu rendah lemak</span></div>
+    <div class="meal"><b>Siang</b><span>Nasi, ikan kembung kukus atau ayam tanpa kulit, tumis wortel-buncis, tempe 2 potong, jeruk</span></div>
+    <div class="meal"><b>Camilan</b><span>Semangka atau pepaya, yoghurt tawar</span></div>
+    <div class="meal"><b>Malam</b><span>Sup labu-kentang-wortel, telur rebus, tahu kukus, nasi secukupnya</span></div></div>`;
+    else h+=`<div class="box mid"><h3>💡 Tips</h3><ul><li>Seimbangkan porsi protein hewani dan nabati</li><li>Jaga berat badan ideal</li></ul></div>`;
+  }else{
+    h+=`<div class="box yes"><h3>🏃 Rencana mingguan${p>=30?'':' (pemeliharaan)'}</h3>
+    <div class="meal"><b>Sen · Rab · Jum</b><span>Jalan cepat 30 menit</span></div>
+    <div class="meal"><b>Selasa</b><span>Bersepeda santai atau renang 30 menit</span></div>
+    <div class="meal"><b>Kamis · Minggu</b><span>Peregangan / yoga ringan 20 menit</span></div></div>
+    <div class="box"><h3>⚠️ Perhatikan</h3><ul><li>Mulai pelan, tambah intensitas bertahap</li><li>Istirahatkan sendi saat sedang nyeri atau bengkak</li><li>Turunkan berat badan 0,5–1 kg per bulan, hindari diet ekstrem atau puasa berlebihan</li><li>Minum air sebelum & sesudah berolahraga</li></ul></div>`;
+  }
+  h+=`<p class="note">Hasil ini hanya skrining awal, bukan diagnosis. Konsultasikan dengan tenaga kesehatan untuk pemeriksaan lebih lanjut.</p>`;
+  $('#tab').innerHTML=h;
+}
+render();
+</script>
+</body>
+</html>

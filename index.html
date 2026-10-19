@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cek Kesehatan — cekkesehatan.my.id</title>
+<meta name="description" content="Skrining kesehatan mandiri gratis: cek asam urat, kolesterol, mata, jantung, otak, ginjal, dan lainnya. Isi pertanyaan, dapatkan kesimpulan dan rekomendasi.">
+<meta name="theme-color" content="#0077b6">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cek Kesehatan">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:title" content="Cek Kesehatan">
+<meta property="og:description" content="Skrining kesehatan mandiri gratis, cepat, dan mudah dipahami.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.cekkesehatan.my.id/">
+
+<style>
+:root{
+  --font: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --deep:#023e8a; --ocean:#0077b6; --sea:#0096c7; --cyan:#00b4d8; --sky:#48cae4; --foam:#90e0ef; --mist:#caf0f8;
+  --ice:#f3fbff; --ink:#0b2a3f; --muted:#5b7c93; --line:#dcecf5;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:#dff3fb;color:var(--ink);min-height:100dvh}
+button{font-family:inherit;cursor:pointer}
+a{color:inherit}
+
+.app{max-width:520px;margin:0 auto;min-height:100dvh;background:var(--ice);position:relative;overflow-x:hidden;box-shadow:0 0 60px -20px rgba(2,62,138,.35)}
+.screen{min-height:100dvh;padding-bottom:calc(32px + env(safe-area-inset-bottom,0px));animation:in .36s cubic-bezier(.2,.8,.2,1)}
+.screen.back{animation-name:inb}
+@keyframes in{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes inb{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:none}}
+
+/* ---------- HERO (nav selalu di atas) ---------- */
+.hero{
+  position:relative;color:#fff;overflow:hidden;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) 20px 64px;
+  background:
+    radial-gradient(90% 60% at 95% 0%,rgba(72,202,228,.95),transparent 62%),
+    radial-gradient(70% 60% at 0% 100%,rgba(67,97,238,.55),transparent 66%),
+    linear-gradient(155deg,#0096c7 0%,#0077b6 45%,#023e8a 100%);
+}
+.hero.compact{padding-bottom:46px}
+.facets{position:absolute;inset:0;width:100%;height:100%}
+.hero-inner{position:relative}
+.wave{position:absolute;left:0;bottom:-1px;width:100%;height:30px;display:block}
+.wave path{fill:var(--ice)}
+
+.topbar{display:flex;align-items:center;gap:12px;min-height:44px}
+.tools{display:flex;gap:8px;margin-left:auto}
+.ib{width:42px;height:42px;border-radius:14px;border:0;flex:none;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);transition:transform .12s,background .15s}
+.ib:active{transform:scale(.93);background:rgba(255,255,255,.3)}
+.ib svg{width:21px;height:21px}
+
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo svg{display:block;width:40px;height:40px;filter:drop-shadow(0 6px 12px rgba(2,62,138,.4))}
+.brand-text{font-size:19px;font-weight:800;letter-spacing:-.3px;line-height:1.1;white-space:nowrap}
+.brand-text span{font-weight:600;opacity:.78}
+.ttl-wrap{min-width:0}
+.ttl-wrap b{display:block;font-size:19px;font-weight:800;letter-spacing:-.3px;line-height:1.15}
+.ttl-wrap small{display:block;margin-top:2px;font-size:12.5px;font-weight:600;opacity:.88}
+
+.greet{margin-top:22px;font-size:14px;font-weight:600;opacity:.92}
+.hero h1{margin-top:6px;font-size:28px;line-height:1.14;font-weight:800;letter-spacing:-.7px;max-width:15em}
+.hero h1 em{font-style:normal;color:var(--mist)}
+.lead{margin-top:10px;font-size:14px;line-height:1.55;opacity:.93;max-width:34ch}
+
+/* ---------- SEARCH ---------- */
+.search{
+  position:relative;z-index:2;height:58px;padding:0 8px 0 16px;
+  display:flex;align-items:center;gap:10px;background:#fff;border-radius:20px;border:1px solid var(--line);
+  box-shadow:0 16px 34px -16px rgba(2,62,138,.5);transition:box-shadow .2s;
+}
+.search.float{margin:-30px 20px 0}
+.search.inhero{margin:16px 0 0;border:0;box-shadow:0 14px 28px -14px rgba(2,40,100,.55)}
+.search:focus-within{box-shadow:0 0 0 3px rgba(0,180,216,.35),0 16px 34px -16px rgba(2,62,138,.5)}
+.search>svg{width:21px;height:21px;color:var(--sea);flex:none}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:500 16px var(--font);color:var(--ink)}
+.search input::placeholder{color:#8fa9bb}
+.search input::-webkit-search-cancel-button{display:none}
+.sgo{flex:none;width:42px;height:42px;border:0;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#00b4d8,#0077b6);box-shadow:0 8px 16px -8px rgba(0,119,182,.9)}
+.sgo svg{width:20px;height:20px}
+
+/* ---------- LAYAR 1 ---------- */
+.block{margin:20px 20px 0}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.quick{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ocean);padding:10px 15px;border-radius:999px;font:700 13px/1 var(--font);transition:transform .12s}
+.chip:active{transform:scale(.95)}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:18px;padding:17px;border:0;border-radius:20px;color:#fff;font:800 16px var(--font);background:linear-gradient(135deg,#00b4d8 0%,#0077b6 55%,#3a56d4 100%);box-shadow:0 18px 30px -16px rgba(0,119,182,.9);transition:transform .12s}
+.cta:active{transform:scale(.98)}
+.cta svg{width:22px;height:22px}
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 20px 0}
+.perk{background:#fff;border:1px solid var(--line);border-radius:16px;padding:11px 6px 10px;text-align:center;font-size:11.5px;font-weight:700;color:var(--ocean)}
+.perk svg{display:block;margin:0 auto 5px;width:20px;height:20px;color:var(--cyan)}
+
+/* hasil pencarian langsung */
+.list{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.row{display:flex;align-items:center;gap:12px;width:100%;padding:12px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:20px;text-decoration:none;color:inherit;font:inherit;box-shadow:0 12px 24px -18px rgba(0,119,182,.6);transition:transform .12s}
+.row:active{transform:scale(.98)}
+.row .ico{width:44px;height:44px;border-radius:15px}
+.row .ico svg{width:23px;height:23px}
+.rt{flex:1;min-width:0}
+.rt b{display:block;font-size:14.5px;font-weight:800}
+.rt small{display:block;margin-top:2px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.go{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--mist);color:var(--ocean);flex:none}
+.go svg{width:16px;height:16px}
+.badge{font-size:11px;font-weight:800;color:var(--ocean);background:var(--mist);padding:5px 9px;border-radius:999px;white-space:nowrap;flex:none}
+.row.soon{box-shadow:0 10px 20px -18px rgba(0,119,182,.5)}
+.row.soon .ico{opacity:.92}
+
+/* ---------- LAYAR 2 : GRID ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:6px 16px 0}
+.tile{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:9px;
+  min-height:140px;padding:16px 6px 12px;overflow:hidden;text-align:center;text-decoration:none;color:inherit;font:inherit;
+  background:#fff;border:1px solid var(--line);border-radius:22px;
+  box-shadow:0 12px 24px -18px rgba(0,119,182,.6);transition:transform .15s;
+}
+.tile::after{content:"";position:absolute;right:-26px;top:-26px;width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--g2));opacity:.13;pointer-events:none}
+.tile:active{transform:scale(.96)}
+.tile .ico{width:54px;height:54px;border-radius:18px}
+.tile .ico svg{width:27px;height:27px}
+.tile .tt{font-size:12.5px;font-weight:800;line-height:1.25;letter-spacing:-.1px;padding:0 2px}
+.tile .sub{margin-top:auto;font-size:11px;font-weight:700;color:var(--muted);background:#eef8fd;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.tile.soon{box-shadow:0 10px 20px -18px rgba(0,119,182,.5)}
+.tile.soon .ico{opacity:.92}
+.tile.soon .tt{color:#3d5f76}
+.tile.soon .sub{background:transparent;color:#7f9db1}
+
+.ico{display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2));box-shadow:0 10px 18px -10px var(--g2)}
+/* warna polikromatik biru laut */
+.c0{--g1:#00b4d8;--g2:#0077b6}
+.c1{--g1:#48cae4;--g2:#0096c7}
+.c2{--g1:#4cc9f0;--g2:#4361ee}
+.c3{--g1:#2dd4bf;--g2:#0ea5e9}
+.c4{--g1:#3a86ff;--g2:#00b4d8}
+.c5{--g1:#90e0ef;--g2:#0077b6}
+
+.skel{height:140px;border-radius:22px;background:linear-gradient(90deg,#e4f3fa 25%,#f4fbff 40%,#e4f3fa 60%);background-size:300% 100%;animation:sh 1.3s linear infinite}
+@keyframes sh{to{background-position:-300% 0}}
+.empty{grid-column:1/-1;text-align:center;padding:34px 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+.btn{border:0;color:#fff;background:linear-gradient(135deg,#00b4d8,#0077b6);font:700 14px var(--font);padding:12px 18px;border-radius:14px;white-space:nowrap;box-shadow:0 10px 18px -10px rgba(0,119,182,.9);transition:transform .12s}
+.btn:active{transform:scale(.96)}
+.empty .btn{margin-top:14px}
+
+/* ---------- INSTALL & NOTICE ---------- */
+.install{margin:22px 20px 0;display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;background:linear-gradient(135deg,#caf0f8,#e6f5ff);border:1px solid #bfe6f5}
+.install .ico{width:48px;height:48px;border-radius:16px}
+.install .ico svg{width:24px;height:24px}
+.install .txt{flex:1;min-width:0}
+.install b{display:block;font-size:15px;font-weight:800}
+.install p{margin-top:2px;font-size:12.5px;line-height:1.4;color:var(--muted)}
+.notice{margin:16px 20px 0;display:flex;gap:12px;padding:14px;border-radius:18px;background:#fff;border:1px dashed #9fd6ea;font-size:12.5px;line-height:1.55;color:var(--muted)}
+.notice svg{flex:none;width:20px;height:20px;color:var(--sea);margin-top:1px}
+.notice b{color:var(--ink)}
+.copy{text-align:center;font-size:12px;color:#7f9db1;padding:20px 20px 0}
+
+/* ---------- TOAST (di atas) & MODAL (di tengah) ---------- */
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 14px);transform:translate(-50%,-140%);z-index:80;max-width:min(92vw,440px);padding:12px 18px;border-radius:16px;background:#0b2a3f;color:#fff;font-size:13.5px;font-weight:700;line-height:1.35;box-shadow:0 14px 30px -12px rgba(2,40,70,.6);transition:transform .32s cubic-bezier(.2,.8,.2,1);pointer-events:none;text-align:center}
+.toast.show{transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:20px;visibility:hidden;transition:visibility 0s .25s}
+.modal.open{visibility:visible;transition-delay:0s}
+.modal .bg{position:absolute;inset:0;background:rgba(2,40,70,.5);opacity:0;transition:opacity .25s}
+.modal.open .bg{opacity:1}
+.panel{position:relative;width:min(100%,420px);max-height:82dvh;overflow:auto;background:#fff;border-radius:28px;padding:24px 22px 22px;transform:scale(.94) translateY(10px);opacity:0;transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .2s}
+.modal.open .panel{transform:none;opacity:1}
+.panel h3{font-size:20px;font-weight:800;letter-spacing:-.3px}
+.panel p{margin-top:8px;font-size:14px;line-height:1.6;color:var(--muted)}
+.panel ol{margin:14px 0 0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+.panel li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5}
+.panel li::before{content:counter(s);flex:none;width:26px;height:26px;border-radius:9px;display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#00b4d8,#0077b6)}
+.panel .btn{width:100%;margin-top:20px;padding:14px;font-size:15px}
+
+@media (max-width:340px){.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:25px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= LAYAR 1 : PENCARIAN ================= -->
+  <section class="screen" id="s-home">
+    <header class="hero">
+      <svg class="facets" viewBox="0 0 520 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <polygon points="300,0 520,0 520,150" fill="#fff" fill-opacity=".10"/>
+        <polygon points="300,0 520,150 380,190" fill="#caf0f8" fill-opacity=".10"/>
+        <polygon points="380,190 520,150 520,340" fill="#fff" fill-opacity=".06"/>
+        <polygon points="0,120 150,60 120,260" fill="#48cae4" fill-opacity=".12"/>
+        <polygon points="150,60 300,0 250,150" fill="#fff" fill-opacity=".07"/>
+        <polygon points="120,260 250,150 300,340 0,340" fill="#4361ee" fill-opacity=".14"/>
+        <polygon points="250,150 380,190 300,340" fill="#90e0ef" fill-opacity=".10"/>
+        <circle cx="446" cy="86" r="46" fill="#fff" fill-opacity=".10"/>
+        <circle cx="486" cy="190" r="22" fill="#caf0f8" fill-opacity=".14"/>
+        <circle cx="60" cy="40" r="14" fill="#fff" fill-opacity=".10"/>
+      </svg>
+      <div class="hero-inner">
+        <div class="topbar">
+          <div class="brand">
+            <span class="logo" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00b4d8"/><stop offset="1" stop-color="#0077b6"/></linearGradient></defs>
+                <rect width="32" height="32" rx="10" fill="#fff"/>
+                <path d="M13 6.5h6v6.5h6.5v6H19v6.5h-6V19H6.5v-6H13z" fill="url(#lg)"/>
+                <path d="M6.5 16h4.6l1.9-2.6 3 5.2 1.9-2.6h5.6" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="brand-text">Cek Kesehatan<span>.my.id</span></span>
+          </div>
+          <div class="tools">
+            <button class="ib js-install" data-i="download" aria-label="Pasang aplikasi" hidden></button>
+            <button class="ib js-about" data-i="info" aria-label="Tentang"></button>
+          </div>
+        </div>
+        <p class="greet" id="greet">Halo!</p>
+        <h1>Kenali risiko kesehatanmu <em>sejak dini</em></h1>
+        <p class="lead">Skrining mandiri gratis. Isi pertanyaan, lalu dapatkan kesimpulan dan rekomendasi.</p>
+      </div>
+      <svg class="wave" viewBox="0 0 520 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 16C80 32 160 2 260 12s190 22 260 4V30H0z"/></svg>
+    </header>
+
+    <main>
+      <form class="search float" id="f1" role="search">
+        <span data-i="search"></span>
+        <input id="q1" type="search" placeholder="Cari pemeriksaan, mis. asam urat" autocomplete="off" enterkeyhint="search" aria-label="Cari pemeriksaan">
+        <button class="sgo" type="submit" aria-label="Cari" data-i="arrow"></button>
+      </form>
+
+      <div class="block" id="quick">
+        <div class="lbl">Pencarian cepat</div>
+        <div class="quick" id="quickChips"></div>
+      </div>
+      <div class="block" id="suggest" hidden>
+        <div class="lbl" id="suggestLbl">Hasil pencarian</div>
+        <div class="list" id="suggestList"></div>
+      </div>
+
+      <div class="block" style="margin-top:4px">
+        <button class="cta" data-go="grid"><span data-i="grid"></span><span id="ctaText">Lihat Semua Pemeriksaan</span></button>
+      </div>
+
+      <div class="perks">
+        <div class="perk"><span data-i="check"></span>100% Gratis</div>
+        <div class="perk"><span data-i="clock"></span>± 3 menit</div>
+        <div class="perk"><span data-i="user"></span>Tanpa login</div>
+      </div>
+
+      <section class="install js-installcard" hidden>
+        <span class="ico c0"><span data-i="download"></span></span>
+        <div class="txt">
+          <b>Pasang di layar utama</b>
+          <p>Buka lebih cepat seperti aplikasi, tanpa mengetik alamat web.</p>
+        </div>
+        <button class="btn js-install">Pasang</button>
+      </section>
+
+      <aside class="notice">
+        <span data-i="info"></span>
+        <div><b>Penting:</b> hasil skrining bersifat edukatif dan bukan diagnosis. Selalu konsultasikan dengan dokter atau tenaga kesehatan untuk pemeriksaan lebih lanjut.</div>
+      </aside>
+      <p class="copy">© <span id="yr">2026</span> cekkesehatan.my.id</p>
+    </main>
+  </section>
+
+  <!-- ================= LAYAR 2 : GRID PEMERIKSAAN ================= -->
+  <section class="screen" id="s-grid" hidden>
+    <header class="hero compact">
+      <svg class="facets" viewBox="0 0 520 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <polygon points="300,0 520,0 520,120" fill="#fff" fill-opacity=".10"/>
+        <polygon points="300,0 520,120 400,160" fill="#caf0f8" fill-opacity=".10"/>
+        <polygon points="0,60 150,0 120,200" fill="#48cae4" fill-opacity=".12"/>
+        <polygon points="120,200 250,110 300,220 0,220" fill="#4361ee" fill-opacity=".14"/>
+        <circle cx="470" cy="60" r="38" fill="#fff" fill-opacity=".09"/>
+      </svg>
+      <div class="hero-inner">
+        <div class="topbar">
+          <button class="ib" data-back data-i="back" aria-label="Kembali"></button>
+          <div class="ttl-wrap"><b>Pilih Pemeriksaan</b><small id="count">Memuat…</small></div>
+          <div class="tools">
+            <button class="ib js-install" data-i="download" aria-label="Pasang aplikasi" hidden></button>
+            <button class="ib js-about" data-i="info" aria-label="Tentang"></button>
+          </div>
+        </div>
+        <form class="search inhero" id="f2" role="search">
+          <span data-i="search"></span>
+          <input id="q2" type="search" placeholder="Cari pemeriksaan…" autocomplete="off" enterkeyhint="search" aria-label="Cari pemeriksaan">
+        </form>
+      </div>
+      <svg class="wave" viewBox="0 0 520 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 16C80 32 160 2 260 12s190 22 260 4V30H0z"/></svg>
+    </header>
+
+    <main>
+      <div class="grid" id="grid" aria-live="polite"></div>
+      <aside class="notice">
+        <span data-i="info"></span>
+        <div>Pilih satu pemeriksaan, jawab daftar pertanyaannya, lalu lihat kesimpulan dan rekomendasi. Hasil bukan pengganti diagnosis dokter.</div>
+      </aside>
+    </main>
+  </section>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="bg" data-close></div>
+  <div class="panel">
+    <div id="modalBody"></div>
+    <button class="btn" data-close>Mengerti</button>
+  </div>
+</div>
+
+<noscript><p style="padding:20px;text-align:center">Aktifkan JavaScript untuk menampilkan daftar pemeriksaan.</p></noscript>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- ikon ---------- */
+var ICONS={
+  flame:['M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z'],
+  droplet:['M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z'],
+  activity:['M22 12h-4l-3 9L9 3l-3 9H2'],
+  gauge:['m12 14 4-4','M3.34 19a10 10 0 1 1 17.32 0'],
+  heart:['M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'],
+  bean:['M10.165 6.598C9.954 7.478 9.64 8.36 9 9c-.64.64-1.521.954-2.402 1.165A6 6 0 0 0 8 22c7.732 0 14-6.268 14-14a6 6 0 0 0-11.835-1.402Z','M5.341 10.62a4 4 0 1 0 5.279-5.28'],
+  smile:['M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z','M8 14s1.5 2 4 2 4-2 4-2','M9 9h.01','M15 9h.01'],
+  moon:['M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'],
+  eye:['M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0','M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z'],
+  scale:['m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z','m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z','M7 21h10','M12 3v18','M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2'],
+  shield:['M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'],
+  brain:['M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z','M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z','M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4','M12 5v13'],
+  ribbon:['M12 3C9.2 3 7.5 4.9 7.5 7.2c0 2.8 2.4 4.6 4.5 7.3 2.1-2.7 4.5-4.5 4.5-7.3C16.5 4.9 14.8 3 12 3z','M12 14.5 7.5 21','M12 14.5 16.5 21'],
+  wind:['M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2','M9.6 4.6A2 2 0 1 1 11 8H2','M12.6 19.4A2 2 0 1 0 14 16H2'],
+  bone:['M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z'],
+  spine:['M9 2.5h6v3H9z','M9.5 7.5h5v3h-5z','M9 12.5h6v3H9z','M9.5 17.5h5v3h-5z'],
+  stomach:['M7.5 3C7.5 6.500 5 8 5 12c0 3.500 1 5 3 7v2h8v-2c2-2 3-3.500 3-7 0-4-2.500-5.500-2.500-9','M12 11.500a1 1 0 1 0 0 2 1 1 0 0 0 0-2z'],
+  more:['M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z','M8 12h.01','M12 12h.01','M16 12h.01'],
+  search:['M11 3a8 8 0 1 0 0 16 8 8 0 0 0 0-16z','m21 21-4.3-4.3'],
+  download:['M12 3v12','m7 10 5 5 5-5','M5 21h14'],
+  grid:['M3 3h7v7H3z','M14 3h7v7h-7z','M14 14h7v7h-7z','M3 14h7v7H3z'],
+  info:['M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z','M12 16v-4','M12 8h.01'],
+  arrow:['M5 12h14','m13 6 6 6-6 6'],
+  back:['m15 18-6-6 6-6'],
+  clock:['M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z','M12 6v6l4 2'],
+  check:['M20 6 9 17l-5-5'],
+  user:['M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2','M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z']
+};
+function icon(name){
+  var p=ICONS[name]||ICONS.activity;
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+    p.map(function(d){return '<path d="'+d+'"/>';}).join('')+'</svg>';
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function $(s){return document.querySelector(s);}
+
+document.querySelectorAll('[data-i]').forEach(function(el){
+  var svg=icon(el.getAttribute('data-i'));
+  el.innerHTML=el.tagName==='SPAN'||el.tagName==='BUTTON'?svg:svg;
+});
+$('#yr').textContent=new Date().getFullYear();
+
+(function(){
+  var h=new Date().getHours();
+  var s=h<4?'Selamat malam':h<11?'Selamat pagi':h<15?'Selamat siang':h<18?'Selamat sore':'Selamat malam';
+  $('#greet').textContent=s+' 👋';
+})();
+
+/* ---------- data ---------- */
+var TESTS=[], q='', loaded=false;
+
+function checkAvailability(){
+  return Promise.all(TESTS.map(function(t){
+    t.soon = t.aktif===false || !t.halaman;
+    if(t.soon) return null;
+    // halaman yang belum di-upload (404) otomatis tampil "Segera hadir"
+    return fetch(t.halaman,{method:'HEAD',cache:'no-store'}).then(function(r){
+      if(r.status===404) t.soon=true;
+    }).catch(function(){ /* offline: anggap tersedia */ });
+  }));
+}
+
+function load(){
+  loaded=false; renderGrid();
+  fetch('tests.json',{cache:'no-cache'})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(data){
+      TESTS=(Array.isArray(data)?data:(data.skrining||[])).map(function(t,i){t._i=i;return t;});
+      return Promise.race([checkAvailability(),new Promise(function(r){setTimeout(r,2000);})]);
+    })
+    .then(function(){ loaded=true; buildQuick(); renderAll(); })
+    .catch(function(){
+      $('#grid').innerHTML='<div class="empty"><b>Daftar belum bisa dimuat</b>Periksa koneksi internet lalu coba lagi.<br><button class="btn" id="retry">Muat ulang</button></div>';
+      $('#count').textContent='Gagal memuat';
+      var r=$('#retry'); if(r) r.addEventListener('click',load);
+    });
+}
+
+function match(t){
+  if(!q) return true;
+  var hay=(t.judul+' '+(t.kategori||'')+' '+(t.deskripsi||'')+' '+(t.kata||[]).join(' ')).toLowerCase();
+  return q.split(/\s+/).every(function(w){return hay.indexOf(w)>-1;});
+}
+
+/* ---------- render ---------- */
+function tileHTML(t){
+  var cls='tile c'+(t._i%6)+(t.soon?' soon':'');
+  var sub=t.soon?'Segera hadir':(t.menit?'± '+t.menit+' menit':'Mulai');
+  var inner='<span class="ico">'+icon(t.ikon)+'</span><span class="tt">'+esc(t.judul)+'</span><span class="sub">'+sub+'</span>';
+  return t.soon
+    ? '<button type="button" class="'+cls+'" data-soon="'+esc(t.judul)+'">'+inner+'</button>'
+    : '<a class="'+cls+'" href="'+esc(t.halaman)+'">'+inner+'</a>';
+}
+function rowHTML(t){
+  var cls='row c'+(t._i%6)+(t.soon?' soon':'');
+  var inner='<span class="ico">'+icon(t.ikon)+'</span><span class="rt"><b>'+esc(t.judul)+'</b><small>'+esc(t.deskripsi)+'</small></span>'+
+    (t.soon?'<span class="badge">Segera</span>':'<span class="go">'+icon('arrow')+'</span>');
+  return t.soon
+    ? '<button type="button" class="'+cls+'" data-soon="'+esc(t.judul)+'">'+inner+'</button>'
+    : '<a class="'+cls+'" href="'+esc(t.halaman)+'">'+inner+'</a>';
+}
+
+function renderGrid(){
+  var g=$('#grid');
+  if(!loaded){
+    g.innerHTML=new Array(12+1).join('<div class="skel"></div>');
+    return;
+  }
+  var list=TESTS.filter(match);
+  var ready=list.filter(function(t){return !t.soon;}).length;
+  $('#count').textContent=q
+    ? list.length+' hasil untuk “'+q+'”'
+    : list.length+' pemeriksaan · '+ready+' tersedia';
+  g.innerHTML=list.length?list.map(tileHTML).join(''):
+    '<div class="empty"><b>Tidak ditemukan</b>Coba kata kunci lain, mis. “sendi”, “jantung”, atau “mata”.<br><button class="btn" id="reset">Tampilkan semua</button></div>';
+  var rs=$('#reset'); if(rs) rs.addEventListener('click',function(){setQ('');});
+}
+
+function renderSuggest(){
+  var quick=$('#quick'), box=$('#suggest');
+  if(!q){ box.hidden=true; quick.hidden=false; return; }
+  quick.hidden=true; box.hidden=false;
+  if(!loaded){ $('#suggestList').innerHTML=''; return; }
+  var list=TESTS.filter(match);
+  $('#suggestLbl').textContent=list.length?('Hasil pencarian · '+list.length):'Hasil pencarian';
+  $('#suggestList').innerHTML=list.length
+    ? list.slice(0,5).map(rowHTML).join('')+(list.length>5?'<button class="btn" data-go="grid" style="justify-self:center">Lihat semua '+list.length+' hasil</button>':'')
+    : '<div class="empty" style="padding:18px 0"><b>Tidak ditemukan</b>Coba kata kunci lain.</div>';
+}
+
+function buildQuick(){
+  $('#quickChips').innerHTML=TESTS.filter(function(t){return t.ikon!=='more';}).slice(0,6).map(function(t){
+    return '<button class="chip" data-open="'+esc(t.id)+'">'+esc(t.judul.replace(/^Cek\s+/i,''))+'</button>';
+  }).join('');
+  $('#ctaText').textContent='Lihat Semua Pemeriksaan ('+TESTS.length+')';
+}
+
+function renderAll(){ renderSuggest(); renderGrid(); }
+
+function setQ(v){
+  q=v.trim().toLowerCase();
+  $('#q1').value=v.trim(); $('#q2').value=v.trim();
+  renderAll();
+}
+$('#q1').addEventListener('input',function(e){ q=e.target.value.trim().toLowerCase(); $('#q2').value=e.target.value; renderSuggest(); renderGrid(); });
+$('#q2').addEventListener('input',function(e){ q=e.target.value.trim().toLowerCase(); $('#q1').value=e.target.value; renderSuggest(); renderGrid(); });
+$('#f1').addEventListener('submit',function(e){ e.preventDefault(); document.activeElement.blur(); goGrid(); });
+$('#f2').addEventListener('submit',function(e){ e.preventDefault(); document.activeElement.blur(); });
+
+/* ---------- perpindahan layar (tombol Back HP ikut bekerja) ---------- */
+var pushed=false, lastGrid=null;
+function goGrid(){ if(location.hash!=='#semua'){ pushed=true; location.hash='#semua'; } }
+function goBack(){
+  if(pushed){ pushed=false; history.back(); }
+  else { history.replaceState(null,'',location.pathname+location.search); route(); }
+}
+function route(){
+  var g=location.hash==='#semua';
+  var sh=$('#s-home'), sg=$('#s-grid');
+  if(g===lastGrid) return;
+  var back=lastGrid===true && !g;
+  lastGrid=g;
+  sh.hidden=g; sg.hidden=!g;
+  var el=g?sg:sh;
+  el.classList.toggle('back',back);
+  el.style.animation='none'; void el.offsetWidth; el.style.animation='';
+  window.scrollTo(0,0);
+  renderAll();
+}
+window.addEventListener('hashchange',route);
+
+/* ---------- toast (di atas) & modal ---------- */
+var tt;
+function toast(msg){
+  var el=$('#toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(function(){el.classList.remove('show');},2300);
+}
+var modal=$('#modal');
+function openModal(html){ $('#modalBody').innerHTML=html; modal.classList.add('open'); }
+function closeModal(){ modal.classList.remove('open'); }
+modal.addEventListener('click',function(e){ if(e.target.closest('[data-close]')) closeModal(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+
+function aboutModal(){
+  openModal('<h3>Tentang Cek Kesehatan</h3>'+
+    '<p>Cek Kesehatan menyediakan skrining mandiri untuk mengenali faktor risiko dan gejala awal berbagai kondisi kesehatan. Setiap pemeriksaan berisi daftar pertanyaan, lalu diakhiri kesimpulan dan rekomendasi yang mudah dipahami.</p>'+
+    '<p><b style="color:var(--ink)">Bukan pengganti dokter.</b> Hasil hanya gambaran awal dan tidak dapat dipakai sebagai diagnosis. Bila ada keluhan berat atau kondisi darurat, segera ke fasilitas kesehatan atau IGD terdekat.</p>');
+}
+
+/* ---------- pasang PWA ---------- */
+var deferred=null;
+var standalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+function setInstallUI(){
+  document.querySelectorAll('.js-install').forEach(function(b){ b.hidden=standalone; });
+  document.querySelectorAll('.js-installcard').forEach(function(b){ b.hidden=standalone; });
+}
+setInstallUI();
+window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); deferred=e; });
+window.addEventListener('appinstalled',function(){ standalone=true; deferred=null; setInstallUI(); closeModal(); });
+
+function doInstall(){
+  if(deferred){ deferred.prompt(); deferred.userChoice.then(function(){ deferred=null; }); return; }
+  if(isIOS){
+    openModal('<h3>Pasang di iPhone / iPad</h3><ol>'+
+      '<li>Buka halaman ini lewat <b>Safari</b>.</li>'+
+      '<li>Ketuk ikon <b>Bagikan</b> (kotak dengan panah ke atas).</li>'+
+      '<li>Gulir lalu pilih <b>Tambah ke Layar Utama</b>.</li>'+
+      '<li>Ketuk <b>Tambah</b>. Ikon Cek Kesehatan muncul di layar utama.</li></ol>');
+  }else{
+    openModal('<h3>Pasang di HP Android</h3><ol>'+
+      '<li>Buka halaman ini lewat <b>Chrome</b>.</li>'+
+      '<li>Ketuk menu <b>⋮</b> di pojok kanan atas.</li>'+
+      '<li>Pilih <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.</li>'+
+      '<li>Konfirmasi. Ikon Cek Kesehatan muncul di layar utama.</li></ol>');
+  }
+}
+
+/* ---------- klik ---------- */
+document.addEventListener('click',function(e){
+  var t;
+  if((t=e.target.closest('[data-soon]'))){ toast(t.getAttribute('data-soon')+' segera hadir'); return; }
+  if(e.target.closest('[data-go="grid"]')){ goGrid(); return; }
+  if(e.target.closest('[data-back]')){ goBack(); return; }
+  if(e.target.closest('.js-install')){ doInstall(); return; }
+  if(e.target.closest('.js-about')){ aboutModal(); return; }
+  if((t=e.target.closest('[data-open]'))){
+    var id=t.getAttribute('data-open');
+    var item=TESTS.filter(function(x){return x.id===id;})[0];
+    if(!item) return;
+    if(item.soon) toast(item.judul+' segera hadir'); else location.href=item.halaman;
+  }
+});
+
+/* ---------- service worker ---------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+
+route();
+load();
+})();
+</script>
+</body>
+</html>
